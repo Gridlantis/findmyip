@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-adsense-account" content="ca-pub-2759497014722831">
+  <title>Check Your IP Address</title>
+  <style>
+    body {
+      font-family: "Consolas", "Courier New", monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000; /* Black background */
+      color: #00ff00; /* Green text */
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      border: 1px solid #00ff00;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+      max-width: 500px;
+      width: 90%; /* Adjust for smaller screens */
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+    #ip-address {
+      font-size: 1.2em;
+      margin-top: 10px;
+      display: none;
+      word-wrap: break-word; /* Ensure long IPs wrap correctly */
+    }
+    .btn {
+      margin-top: 10px;
+      padding: 12px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+      background-color: transparent;
+      color: #00ff00;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .btn:hover {
+      background-color: #00ff00;
+      color: #000;
+    }
+    footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9em;
+      color: #00ff00;
+      padding: 10px;
+      border-top: 1px solid #00ff00;
+    }
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.5em;
+      }
+      .btn {
+        font-size: 0.9em;
+        padding: 10px;
+      }
+      #ip-address {
+        font-size: 1em;
+      }
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.2em;
+      }
+      .container {
+        padding: 15px;
+      }
+      footer {
+        font-size: 0.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Your IP Address</h1>
+    <p style="font-size: 0.9em;">Your public IP address is fetched securely and displayed below.</p>
+    <button id="show-ip-btn" class="btn" onclick="fetchAndDisplayIp()">Show My IP Address</button>
+    <button id="reset-btn" class="btn" onclick="resetPage()" style="display:none;">Reset</button>
+    <p id="ip-address" role="alert" aria-live="polite">Loading...</p>
+  </div>
+  <footer>Gridlantis</footer>
+  <script>
+    async function fetchAndDisplayIp() {
+      const ipDisplay = document.getElementById('ip-address');
+      const showIpButton = document.getElementById('show-ip-btn');
+      const resetButton = document.getElementById('reset-btn');
+      
+      ipDisplay.style.display = "block";
+      ipDisplay.innerText = "Loading...";
+
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        ipDisplay.innerText = `Your IP Address is: ${data.ip}`;
+      } catch (error) {
+        ipDisplay.innerText = "Error: Could not fetch IP address.";
+      }
+
+      showIpButton.style.display = "none";
+      resetButton.style.display = "inline-block";
+    }
+
+    function resetPage() {
+      const ipDisplay = document.getElementById('ip-address');
+      const showIpButton = document.getElementById('show-ip-btn');
+      const resetButton = document.getElementById('reset-btn');
+
+      ipDisplay.style.display = "none";
+      ipDisplay.innerText = "Loading...";
+      showIpButton.style.display = "inline-block";
+      resetButton.style.display = "none";
+    }
+  </script>
+</body>
+</html>
